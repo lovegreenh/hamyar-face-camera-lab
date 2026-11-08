@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self' https://cdn.jsdelivr.net; img-src 'self' data: blob:; media-src 'self' blob:; worker-src 'self' blob:; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'">
+<title>آزمایش دوربین و تطبیق دو چهره | همیار</title>
+<link rel="stylesheet" href="./style.css">
+<script defer src="./face-api.min.js"></script>
+<script defer src="./app.js"></script>
+</head>
+<body>
+<div class="page">
+<header class="head"><div class="brand"><span class="brandmark">H</span><div><small>HAMYAR OS • CAMERA LAB</small><h1>آزمایش چهره با موبایل</h1></div></div><span class="tag">فقط آزمایش • نه حضور و غیاب</span></header>
+<section class="notice"><strong>حریم خصوصی:</strong> تصویر و بردار چهره فقط در حافظه همین صفحه گوشی هستند؛ هیچ تصویر یا برداری به همیار یا GitHub ارسال و ذخیره نمی‌شود. برای دانلود مدل‌ها به اینترنت نیاز است. فقط دو داوطلب بزرگسال با رضایت آگاهانه شرکت کنند. این آزمایش با موتور مرورگری انجام می‌شود، <strong>نه مدل عملیاتی Edge</strong>.</section>
+<main class="layout">
+  <section class="panel camPanel"><div class="panelHead"><div><small>مرحله ۱</small><h2>دوربین جلو</h2></div><span id="cameraBadge" class="pill">خاموش</span></div>
+    <div class="cameraBox"><video id="camera" autoplay playsinline muted></video><canvas id="overlay" aria-hidden="true"></canvas><div id="camHint" class="camHint">پس از آماده‌سازی مدل، دوربین جلو را روشن کن.</div></div>
+    <div class="buttons"><button id="loadBtn" type="button" class="primary">۱. آماده‌سازی مدل</button><button id="startBtn" type="button" disabled>۲. روشن‌کردن دوربین</button><button id="stopBtn" type="button" disabled>خاموش‌کردن دوربین</button></div>
+    <div id="status" class="status" role="status" aria-live="polite">مدل هنوز بارگذاری نشده است.</div>
+    <p class="fine">دسترسی دوربین فقط پس از لمس دکمه و موافقت خودت فعال می‌شود. در محیط HTTPS و مرورگر Chrome روی گوشی اجرا کن.</p>
+  </section>
+  <section class="panel participants"><div class="panelHead"><div><small>مرحله ۲</small><h2>ثبت دو داوطلب</h2></div><span class="pill">۳ تصویر از هر نفر</span></div>
+    <div class="subject"><div class="subjectHead"><span class="letter">A</span><div><h3>داوطلب اول</h3><p>سه تصویر در نور و زاویه کمی متفاوت</p></div><span class="count" id="countA">۰ / ۳</span></div>
+      <label class="check"><input type="checkbox" id="consentA"><span>داوطلب اول بزرگسال است و برای این آزمایش رضایت داده است.</span></label><button id="enrollA" disabled type="button" class="wide">ثبت تصویر داوطلب A</button></div>
+    <div class="subject"><div class="subjectHead"><span class="letter b">B</span><div><h3>داوطلب دوم</h3><p>سه تصویر از چهره متفاوت</p></div><span class="count" id="countB">۰ / ۳</span></div>
+      <label class="check"><input type="checkbox" id="consentB"><span>داوطلب دوم بزرگسال است و برای این آزمایش رضایت داده است.</span></label><button id="enrollB" disabled type="button" class="wide">ثبت تصویر داوطلب B</button></div>
+    <p class="fine">نام، شماره، تصویر یا مشخصات شخصی وارد نکن. برای هر عکس یک‌بار دکمه را لمس کن؛ قبل از ثبت باید دقیقاً یک چهره روبه‌روی دوربین باشد.</p>
+  </section>
+  <section class="panel testing"><div class="panelHead"><div><small>مرحله ۳</small><h2>تطبیق زنده</h2></div><span id="readyBadge" class="pill">در انتظار نمونه‌ها</span></div>
+    <label class="field" for="claimed">چه کسی مقابل دوربین است؟</label><select id="claimed"><option value="A">داوطلب A</option><option value="B">داوطلب B</option></select>
+    <button id="testBtn" class="primary wide" type="button" disabled>بررسی همین فریم</button>
+    <div class="scoreGrid"><div><small>فاصله تا A</small><strong id="scoreA">—</strong></div><div><small>فاصله تا B</small><strong id="scoreB">—</strong></div></div>
+    <div class="result" id="result">ابتدا هر دو نفر را ثبت کن.</div>
+    <div class="tally"><div>تعداد آزمون‌ها <strong id="totalTests">۰</strong></div><div>مطابقت درست <strong id="correctTests">۰</strong></div><div>رد/اشتباه <strong id="wrongTests">۰</strong></div></div>
+    <p class="fine">آستانه آزمایشی: فاصله کمتر از <span dir="ltr">0.50</span> و اختلاف حداقل <span dir="ltr">0.05</span> با نفر دیگر. این اعداد معیار معتبر حضور و غیاب نیستند. دو داوطلب برای اندازه‌گیری دقت واقعی کافی نیستند.</p>
+    <div class="buttons"><button type="button" id="exportBtn" disabled>خروجی گزارش بدون تصویر</button><button type="button" id="resetBtn" class="danger">پاک‌کردن همه نمونه‌ها</button></div>
+  </section>
+</main>
+<footer>همیار • محیط پژوهشی مستقل از سرور مدرسه • بدون ذخیره تصویر یا شناسه چهره • <a href="https://github.com/lovegreenh/hamyar-face-camera-lab">مشاهده سورس آزمایش</a></footer>
+</div>
+</body></html>
